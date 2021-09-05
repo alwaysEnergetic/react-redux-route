@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<header>
+    <script>
+        function find([key, values], string, temp = []) {
+    var result;
+    temp = temp.concat(key);
+    if (key === string) {
+        return temp.slice(1).join('.');
+    }
+    values.some(a => result = find(a, string, temp));
+    return result;
+}
+
+var array = ["house.bedroom.bed", "house.kitchen.spoon", "house.kitchen.knife", "house.bedroom.sofa", "house.bedroom.tv", "plants.trees", "house.birds.parrot.grey"],
+    result = array.reduce((r, s) => {
+        ('root.' + s).split('.').reduce((a, item) => {
+            var array = a.find(([v]) => v === item);
+            if (!array) {
+                a.push(array = [item, []]);
+            }
+            return array[1];
+        }, r);
+        return r;
+    }, []).pop();
+
+console.log(find(result, 'knife')); // house.kitchen.knife
+console.log(find(result, '42'));    // undefined, what else?
+console.log(result);
+    </script>
+</header>
+</html>
